@@ -5,7 +5,6 @@ import Events
 extension Event.Key {
     static let undoActionName: Event.Key = "undo_action"
     static let actionName: Event.Key = "action"
-    static let saved: Event.Key = "saved"
     static let canceled: Event.Key = "canceled"
 }
 
@@ -41,10 +40,6 @@ extension UserActions {
                 receiveCompletion: { [weak self] completion in
                     switch completion {
                     case .finished:
-    //                    if action.saveAfterComplete {
-    //                        self.managedObjectContext.commit()
-    //                    }
-    //                    Event.current[.saved] = action.saveAfterComplete
                         if let self = self, let context = context {
                             self.delegate?.actionRunner(self, didCompleteAction: action, context: context)
                             Runner.delegate?.actionRunner(self, didCompleteAction: action, context: context)
@@ -79,10 +74,11 @@ extension UserActions {
 
             context.willPerformHandler()
 
+            delegate?.actionRunner(self, willPerformAction: action, context: context)
+            Runner.delegate?.actionRunner(self, willPerformAction: action, context: context)
+
             if let undoActionName = action.undoActionName {
-                delegate?.actionRunner(self, willPerformAction: action, context: context)
-                Runner.delegate?.actionRunner(self, willPerformAction: action, context: context)
-//                managedObjectContext.undoManager?.setActionName(undoActionName)
+                // TODO set undo action name
                 Event.current[.undoActionName] = undoActionName
             }
 
