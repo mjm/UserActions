@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Combinable",
+        "repositoryURL": "https://github.com/mjm/Combinable",
+        "state": {
+          "branch": "master",
+          "revision": "4f3a723782551c7fdbd8547bca6a1335c98ff4da",
+          "version": null
+        }
+      },
+      {
+        "package": "Events",
+        "repositoryURL": "https://github.com/mjm/Events",
+        "state": {
+          "branch": "master",
+          "revision": "9811e5406c7e948ded073862bcd842ea1d7b5de2",
+          "version": null
+        }
+      },
+      {
+        "package": "LogfmtEncoder",
+        "repositoryURL": "https://github.com/mjm/LogfmtEncoder",
+        "state": {
+          "branch": "master",
+          "revision": "f72d2b3732cabf9acb898e7738f2cb903f914172",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
