@@ -75,7 +75,7 @@ public protocol SyncUserAction: ReactiveUserAction {
     func perform(_ context: UserActions.Context<Self>) throws -> ResultType
 }
 
-extension SyncUserAction {
+public extension SyncUserAction {
     func publisher(context: UserActions.Context<Self>) -> AnyPublisher<ResultType, Error> {
         Result(catching: { try perform(context) }).publisher.eraseToAnyPublisher()
     }
@@ -88,7 +88,7 @@ public protocol SimpleUserAction: SyncUserAction {
     func perform() throws -> ResultType
 }
 
-extension SimpleUserAction {
+public extension SimpleUserAction {
     func perform(_ context: UserActions.Context<Self>) throws -> ResultType {
         return try perform()
     }
@@ -116,7 +116,7 @@ public protocol DestructiveUserAction: UserAction {
     var confirmationButtonTitle: String { get }
 }
 
-extension DestructiveUserAction {
+public extension DestructiveUserAction {
     func run(on runner: UserActions.Runner, context: UserActions.Context<Self>) {
         guard runner.presenter != nil else {
             runner.reallyPerform(self, context: context)
