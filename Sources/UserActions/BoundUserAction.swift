@@ -233,7 +233,7 @@ public extension BoundUserAction {
     }
 }
 
-extension UICommand {
+public extension UICommand {
     func update<T>(_ action: BoundUserAction<T>?, updateTitle: Bool = false) {
         self.attributes = action?.canPerform ?? false ? [] : .disabled
         if updateTitle, let action = action {
