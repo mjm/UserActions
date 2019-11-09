@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 #endif
 
-protocol UserActionPresenter: class {
+public protocol UserActionPresenter: class {
     #if canImport(UIKit)
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool)
 
@@ -17,7 +17,7 @@ protocol UserActionPresenter: class {
     func dismiss(animated flag: Bool, completion: (() -> Void)?)
 }
 
-extension UserActionPresenter {
+public extension UserActionPresenter {
     #if canImport(UIKit)
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool) {
         present(viewControllerToPresent, animated: flag, completion: nil)
@@ -29,7 +29,7 @@ extension UserActionPresenter {
     }
 }
 
-extension UserActionPresenter {
+public extension UserActionPresenter {
     func present(error: Error, animated: Bool = true) {
         let error = error as NSError
 
@@ -38,7 +38,8 @@ extension UserActionPresenter {
             title: error.localizedDescription,
             message: error.localizedFailureReason,
             preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized.dismiss, style: .cancel))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: ""),
+                                      style: .cancel))
 
         present(alert, animated: animated)
         #endif

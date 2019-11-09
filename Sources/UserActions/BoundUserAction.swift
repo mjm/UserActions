@@ -1,13 +1,13 @@
 import Combine
 
-struct BoundUserActionOptions: OptionSet {
-    let rawValue: Int
+public struct BoundUserActionOptions: OptionSet {
+    public let rawValue: Int
 
-    init(rawValue: Int) {
+    public init(rawValue: Int) {
         self.rawValue = rawValue
     }
 
-    static let destructive = BoundUserActionOptions(rawValue: 1 << 0)
+    public static let destructive = BoundUserActionOptions(rawValue: 1 << 0)
 }
 
 /// A wrapper for a type-erased user action that has been bound to a particular action runner.
@@ -19,17 +19,19 @@ struct BoundUserActionOptions: OptionSet {
 ///
 /// Bound user actions can also be easily converted into various UIKit action types as necessary for different types
 /// of UI, like context menus and action sheets.
-struct BoundUserAction<ResultType> {
-    typealias CanPerformHandler = () -> Bool
-    typealias WillPerformHandler = () -> Void
+public struct BoundUserAction<ResultType> {
+    public typealias Options = BoundUserActionOptions
 
-    typealias PerformHandler = (UserActionSource?, @escaping () -> Void) -> AnyPublisher<
+    public typealias CanPerformHandler = () -> Bool
+    public typealias WillPerformHandler = () -> Void
+
+    public typealias PerformHandler = (UserActions.Source?, @escaping () -> Void) -> AnyPublisher<
         ResultType, Error
     >
 
     fileprivate var title: String
     fileprivate var shortTitle: String
-    fileprivate var options: BoundUserActionOptions
+    fileprivate var options: Options
     fileprivate var canPerformBlock: CanPerformHandler
     fileprivate var willPerformBlock: WillPerformHandler = {}
     fileprivate var performBlock: PerformHandler
@@ -50,10 +52,10 @@ struct BoundUserAction<ResultType> {
     ///      performed.
     ///    - perform: A block that performs the action.
     ///
-    init(
+    public init(
         title: String,
         shortTitle: String? = nil,
-        options: BoundUserActionOptions = [],
+        options: Options = [],
         canPerform: @escaping CanPerformHandler = { true },
         perform: @escaping PerformHandler
     ) {
@@ -77,12 +79,12 @@ struct BoundUserAction<ResultType> {
     ///      elements like table row swipe actions. Optional, `title` will be used if not provided.
     ///    - options: Options to affect how UI elements are generated for the action.
     ///
-    init<Action: UserAction>(
+    public init<Action: UserAction>(
         _ action: Action,
-        runner: UserActionRunner,
+        runner: UserActions.Runner,
         title: String? = nil,
         shortTitle: String? = nil,
-        options: BoundUserActionOptions = []
+        options: Options = []
     ) where Action.ResultType == ResultType {
         guard let shortTitle = shortTitle ?? title ?? action.shortDisplayName,
             let title = title ?? action.displayName
@@ -109,7 +111,7 @@ struct BoundUserAction<ResultType> {
     ///
     /// This can be set as creation time with the `.destructive` option.
     ///
-    var isDestructive: Bool {
+    public var isDestructive: Bool {
         get {
             options.contains(.destructive)
         }
@@ -124,7 +126,7 @@ struct BoundUserAction<ResultType> {
 
     /// Whether the action can currently be performed.
     ///
-    var canPerform: Bool { canPerformBlock() }
+    public var canPerform: Bool { canPerformBlock() }
 
     /// Perform the action immediately.
     ///
@@ -134,7 +136,7 @@ struct BoundUserAction<ResultType> {
     /// - Returns: A publisher that will send a single result value when the action completes.
     ///
     @discardableResult
-    func perform(source: UserActionSource? = nil, willPerform: @escaping () -> Void = {})
+    public func perform(source: UserActions.Source? = nil, willPerform: @escaping () -> Void = {})
         -> AnyPublisher<ResultType, Error>
     {
         let myWillPerform = self.willPerformBlock
@@ -154,7 +156,7 @@ struct BoundUserAction<ResultType> {
     ///    - block: The work to perform before the action.
     /// - Returns: A copy of the action with the additional work attached.
     ///
-    func onWillPerform(_ block: @escaping () -> Void) -> Self {
+    public func onWillPerform(_ block: @escaping () -> Void) -> Self {
         var newAction = self
 
         let oldWillPerformBlock = willPerformBlock
@@ -172,7 +174,7 @@ struct BoundUserAction<ResultType> {
 import UIKit
 
 // MARK: - Creating UIKIt actions
-extension BoundUserAction {
+public extension BoundUserAction {
     func alertAction(
         willPerform: @escaping () -> Void = {},
         completion: @escaping (ResultType) -> Void = { _ in }
@@ -188,7 +190,7 @@ extension BoundUserAction {
     func menuAction(
         image: UIImage? = nil,
         state: UIMenuElement.State = .off,
-        source: UserActionSource? = nil,
+        source: UserActions.Source? = nil,
         willPerform: @escaping () -> Void = {},
         completion: @escaping (ResultType) -> Void = { _ in }
     ) -> UIAction {
