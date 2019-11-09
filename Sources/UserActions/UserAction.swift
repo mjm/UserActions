@@ -1,25 +1,44 @@
 import Combine
-import Foundation
-
-#if canImport(UIKit)
-import UIKit
-#endif
 
 /// A type that describes a particular action that the user can perform and how to perform it.
 public protocol UserAction {
+    // MARK: Performing Work
+
+    /// Do the action's work, possibly asynchronously, reporting results with a publisher.
+    ///
+    /// - Parameters:
+    ///    - context: The action's context, which can be used to retrieve app-specific values, present
+    ///    or dismiss view controllers, or perform other actions.
+    ///
+    /// - Returns: A publisher that will provide the result of the action and will complete when the action
+    /// is finished.
+    ///
+    func publisher(context: UserActions.Context<Self>) -> AnyPublisher<ResultType, Error>
+
     /// The type of value this action returns when it completes successfully.
     ///
-    /// If an action type doesn't specify this, it defaults to `Void`.
+    /// If an action type doesn't specify this, it defaults to `Void`, meaning the action doesn't return a
+    /// meaningful value.
     associatedtype ResultType = Void
+
+    // MARK: Action Presentation
+
+    /// Whether the action is currently valid to perform.
+    ///
+    /// This will be used to automatically disable menu actions.
+    var canPerform: Bool { get }
 
     /// The name to describe this action in undo alerts.
     ///
-    /// If nil, no action name will be set. This is strongly discouraged.
+    /// If nil, no action name will be set. This is strongly discouraged in general, but there are some actions that
+    /// don't make sense to undo because they either have no persistent effect or they affect external systems
+    /// in a way that is hard or impossible to undo.
     var undoActionName: String? { get }
 
     /// The name used by default when this action is shown in the user interface.
     ///
-    /// If not implemented, it defaults to the undo action name.
+    /// This can be overridden if desired when binding the action to the runner, but it makes bound actions
+    /// less reusable.
     var displayName: String? { get }
 
     /// The name used by default when this action is shown in space-constrained parts of the user interface, like
@@ -28,16 +47,8 @@ public protocol UserAction {
     /// If not implemented, it defaults to the display name.
     var shortDisplayName: String? { get }
 
-    /// Whether the action is currently valid to perform.
+    /// :nodoc:
     ///
-    /// This will be used to automatically disable menu actions. If not implemented, it defaults to true.
-    var canPerform: Bool { get }
-
-    /// Do the action's work, possibly asynchronously, reporting results with a publisher.
-    ///
-    /// This will always be called on the main queue.
-    func publisher(context: UserActions.Context<Self>) -> AnyPublisher<ResultType, Error>
-
     /// Runs this action through the given runner.
     ///
     /// This should not be implemented by concrete action types. It's a hook for subprotocols of `UserAction`
@@ -47,119 +58,43 @@ public protocol UserAction {
 }
 
 public extension UserAction {
+    /// By default, user actions can always be performed.
     var canPerform: Bool { true }
 
+    /// By default, user actions use the `undoActionName` as their display name.
     var displayName: String? { undoActionName }
+
+    /// By default, user actions use the `displayName` itself as the short version of their display name.
     var shortDisplayName: String? { displayName }
 
+    /// :nodoc:
     func run(on runner: UserActions.Runner, context: UserActions.Context<Self>) {
         runner.reallyPerform(self, context: context)
     }
 
+    // MARK: Passing Actions Around
+
+    /// Binds an action to a specific runner, allowing it to be performed independently.
+    ///
+    /// Binding an action allows you to pass an action (or group of actions) to other parts of your app as a value. The
+    /// bound action does not remember the type of the user action, only the type of its result. The bound action can
+    /// be performed without having access to the runner.
+    ///
+    /// A bound action also has conveniences for creating UI elements for the action.
+    ///
+    /// - Parameters:
+    ///    - runner: The action runner that the bound action will use to perform.
+    ///    - title: An optional title to use for UI generated from the bound action. If not provided, which is
+    ///    preferred, `displayName` or `shortDisplayName` will be used as appropriate.
+    ///    - options: Options to configure how the action will be displayed in UI.
+    ///
+    /// - Returns: A type-erased version of the action that is bound to the action runner.
+    ///
     func bind(
         to runner: UserActions.Runner,
         title: String? = nil,
         options: BoundUserActionOptions = []
     ) -> BoundUserAction<ResultType> {
         BoundUserAction(self, runner: runner, title: title, options: options)
-    }
-}
-
-/// A type of `UserAction` that performs its work synchronously on the main thread.
-public protocol SyncUserAction: ReactiveUserAction {
-    /// Do the action's work.
-    ///
-    /// This will always be called on the main queue.
-    ///
-    /// Any error thrown or reported to the context will be presented in an alert.
-    func perform(_ context: UserActions.Context<Self>) throws -> ResultType
-}
-
-public extension SyncUserAction {
-    func publisher(context: UserActions.Context<Self>) -> AnyPublisher<ResultType, Error> {
-        Result(catching: { try perform(context) }).publisher.eraseToAnyPublisher()
-    }
-}
-
-/// A type of `SyncUserAction` that doesn't need anything from the action context.
-///
-/// This protocol exists to allow very simple actions to have a less noisy signature for their `perform` method.
-public protocol SimpleUserAction: SyncUserAction {
-    func perform() throws -> ResultType
-}
-
-public extension SimpleUserAction {
-    func perform(_ context: UserActions.Context<Self>) throws -> ResultType {
-        return try perform()
-    }
-}
-
-/// A type of `UserAction` that signals its success or failure through a publisher.
-///
-/// This is usually used for actions that do their work asynchronously. For synchronous work, it's easier
-/// to implement `SyncUserAction` or `SimpleUserAction`.
-public protocol ReactiveUserAction: UserAction {}
-
-/// A type of `UserAction` that performs destructive work which may be worth confirming with the user.
-///
-/// Conformance to this protocol should be added _in addition to_ one of the other `UserAction` protocols.
-public protocol DestructiveUserAction: UserAction {
-    /// The title to use in a confirmation alert for this action.
-    var confirmationTitle: String { get }
-
-    /// The message to show below the title in a confirmation alert for this action.
-    ///
-    /// This will generally be of a form like "Are you sure you want to...?"
-    var confirmationMessage: String { get }
-
-    /// The text of the button in the confirmation alert that the user will hit to perform the action.
-    var confirmationButtonTitle: String { get }
-}
-
-public extension DestructiveUserAction {
-    func run(on runner: UserActions.Runner, context: UserActions.Context<Self>) {
-        guard runner.presenter != nil else {
-            runner.reallyPerform(self, context: context)
-            return
-        }
-
-        #if canImport(UIKit)
-        let alert = UIAlertController(
-            title: confirmationTitle,
-            message: confirmationMessage,
-            preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
-                                      style: .cancel))
-        alert.addAction(
-            UIAlertAction(title: confirmationButtonTitle, style: .destructive) { _ in
-                runner.reallyPerform(self, context: context)
-            })
-
-        context.present(alert)
-        #else
-        // TODO provide a way for AppKit to present a confirmation
-        #endif
-    }
-}
-
-/// A class of errors that user actions can throw.
-public enum UserActionError: LocalizedError {
-    /// An error that a user action can throw when the user has canceled the action.
-    ///
-    /// Unlike most errors, the action runner won't show an alert for this error.
-    case canceled
-
-    public var errorDescription: String? {
-        switch self {
-        case .canceled:
-            return "Action Canceled"
-        }
-    }
-
-    public var failureReason: String? {
-        switch self {
-        case .canceled:
-            return "The user canceled the action"
-        }
     }
 }

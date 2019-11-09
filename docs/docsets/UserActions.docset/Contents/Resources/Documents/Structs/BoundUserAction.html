@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>BoundUserAction Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Struct/BoundUserAction" class="dashAnchor"></a>
+
+    <a title="BoundUserAction Structure Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          UserActions Docs
+        </a>
+         (91% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/mjm/UserActions">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">UserActions Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      BoundUserAction Structure Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Defining%20Actions.html">Defining Actions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/UserAction.html">UserAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SimpleUserAction.html">SimpleUserAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SyncUserAction.html">SyncUserAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Defining%20Actions.html#/s:11UserActions08ReactiveA6ActionP">ReactiveUserAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/DestructiveUserAction.html">DestructiveUserAction</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Performing%20Actions.html">Performing Actions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UserActions.html">UserActions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UserActions/Source.html">– Source</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UserActions/Context.html">– Context</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UserActions/ContextKey.html">– ContextKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UserActions/Runner.html">– Runner</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/UserActionPresenter.html">UserActionPresenter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/UserActionRunnerDelegate.html">UserActionRunnerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UserActionError.html">UserActionError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Using%20Actions%20in%20UI.html">Using Actions in UI</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BoundUserAction.html">BoundUserAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BoundUserActionOptions.html">BoundUserActionOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UICommand.html">UICommand</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>BoundUserAction</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">BoundUserAction</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="o">&gt;</span></code></pre>
+
+                </div>
+              </div>
+            <p>A wrapper for a type-erased user action that has been bound to a particular action runner.</p>
+
+<p>This provides a way for the owner of the action runner (which may not be a view controller) to provide actions to
+the view controller that can be performed on their own, without needing access to the action runner. Because
+they are type-erased, it&rsquo;s possible to create a heterogenous collection of bound user actions (for showing a
+menu, for instance) or have a property expose an action whose underlying type is different depending on the
+state of the app.</p>
+
+<p>Bound user actions can also be easily converted into various UIKit action types as necessary for different types
+of UI, like context menus and action sheets.</p>
+
+<p>To bind a user action to an action runner, creating a <code>BoundUserAction</code>, use
+<code><a href="../Protocols/UserAction.html#/s:11UserActions0A6ActionPAAE4bind2to5title7optionsAA05BoundaC0Vy10ResultTypeQzGA2AO6RunnerC_SSSgAA0haC7OptionsVtF">UserAction.bind(to:title:options:)</a></code>. It&rsquo;s also possible to create a <code>BoundUserAction</code>
+directly from closures in cases where a user action isn&rsquo;t appropriate for the task.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Creating%20Bound%20Actions"></a>
+                <a name="//apple_ref/swift/Section/Creating Bound Actions" class="dashAnchor"></a>
+                <a href="#/Creating%20Bound%20Actions">
+                  <h3 class="section-name">Creating Bound Actions</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV5title10shortTitle7options10canPerform7performACyxGSS_SSSgAA0caD7OptionsVSbyc7Combine12AnyPublisherVyxs5Error_pGA2AO6SourceOSg_yyctctcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(title:shortTitle:options:canPerform:perform:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV5title10shortTitle7options10canPerform7performACyxGSS_SSSgAA0caD7OptionsVSbyc7Combine12AnyPublisherVyxs5Error_pGA2AO6SourceOSg_yyctctcfc">init(title:shortTitle:options:canPerform:perform:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a bound action for an arbitrary code block.</p>
+
+<p>Only use this for really specific cases where you want to expose an action that really only affects local state,
+and therefore doesn&rsquo;t make sense to be a UserAction. A good example is toggling the editing state of the
+view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+    <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">shortTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/BoundUserAction.html#/s:11UserActions05BoundA6ActionV7Optionsa">Options</a></span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">canPerform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Structs/BoundUserAction.html#/s:11UserActions05BoundA6ActionV17CanPerformHandlera">CanPerformHandler</a></span> <span class="o">=</span> <span class="p">{</span> <span class="kc">true</span> <span class="p">},</span>
+    <span class="nv">perform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Structs/BoundUserAction.html#/s:11UserActions05BoundA6ActionV14PerformHandlera">PerformHandler</a></span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>title</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A localized string that will be displayed in UI elements generated from the action.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shortTitle</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A localized string that will be used instead of <code>title</code> for space-constrained UI
+elements like table row swipe actions. Optional, <code>title</code> will be used if not provided.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Options to affect how UI elements are generated for the action.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>canPerform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that reports whether the action is currently able to be performed. Affects
+whether UI elements for the action are enabled. If not provided, the action is always able to be
+performed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>perform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that performs the action.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Types"></a>
+                <a name="//apple_ref/swift/Section/Types" class="dashAnchor"></a>
+                <a href="#/Types">
+                  <h3 class="section-name">Types</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV7Optionsa"></a>
+                    <a name="//apple_ref/swift/Alias/Options" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV7Optionsa">Options</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An alias for <code><a href="../Structs/BoundUserActionOptions.html">BoundUserActionOptions</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Options</span> <span class="o">=</span> <span class="kt"><a href="../Structs/BoundUserActionOptions.html">BoundUserActionOptions</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV17CanPerformHandlera"></a>
+                    <a name="//apple_ref/swift/Alias/CanPerformHandler" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV17CanPerformHandlera">CanPerformHandler</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A function that determines if the action can be performed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CanPerformHandler</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV18WillPerformHandlera"></a>
+                    <a name="//apple_ref/swift/Alias/WillPerformHandler" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV18WillPerformHandlera">WillPerformHandler</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A function that performs work before the action is performed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">WillPerformHandler</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV14PerformHandlera"></a>
+                    <a name="//apple_ref/swift/Alias/PerformHandler" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV14PerformHandlera">PerformHandler</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A function that performs the work of the action.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">PerformHandler</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Enums/UserActions.html">UserActions</a></span><span class="o">.</span><span class="kt">Source</span><span class="p">?,</span> <span class="n">_</span> <span class="nv">willPerform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>source</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A UI element to present view controllers from if needed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>willPerform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that should be run before the action&rsquo;s work is performed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that will send a single result value when the action completes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Customizing%20Actions"></a>
+                <a name="//apple_ref/swift/Section/Customizing Actions" class="dashAnchor"></a>
+                <a href="#/Customizing%20Actions">
+                  <h3 class="section-name">Customizing Actions</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV13isDestructiveSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isDestructive" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV13isDestructiveSbvp">isDestructive</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether the action should be marked as destructive in UI.</p>
+
+<p>In context menus and action sheets, this causes the text for the action to be shown in red.</p>
+
+<p>This can be enabled as creation time with the <code>.destructive</code> option.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isDestructive</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV13onWillPerformyACyxGyycF"></a>
+                    <a name="//apple_ref/swift/Method/onWillPerform(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV13onWillPerformyACyxGyycF">onWillPerform(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Attach additional work to happen before the action is performed.</p>
+
+<p>The creator of the bound action can use this to schedule work to occur if the user chooses to perform
+the action.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">onWillPerform</span><span class="p">(</span><span class="n">_</span> <span class="nv">block</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The work to perform before the action.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A copy of the action with the additional work attached.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Performing%20Actions"></a>
+                <a name="//apple_ref/swift/Section/Performing Actions" class="dashAnchor"></a>
+                <a href="#/Performing%20Actions">
+                  <h3 class="section-name">Performing Actions</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV7perform6source11willPerform7Combine12AnyPublisherVyxs5Error_pGA2AO6SourceOSg_yyctF"></a>
+                    <a name="//apple_ref/swift/Method/perform(source:willPerform:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV7perform6source11willPerform7Combine12AnyPublisherVyxs5Error_pGA2AO6SourceOSg_yyctF">perform(source:willPerform:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Perform the action immediately.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">perform</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Enums/UserActions.html">UserActions</a></span><span class="o">.</span><span class="kt">Source</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">willPerform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>source</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A UI element which view controllers that this action presents will use as their source.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>willPerform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional block that will run before the action&rsquo;s work is performed.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that will send a single result value when the action completes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV10canPerformSbvp"></a>
+                    <a name="//apple_ref/swift/Property/canPerform" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV10canPerformSbvp">canPerform</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether the action can currently be performed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">canPerform</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Creating%20UIKit%20Actions"></a>
+                <a name="//apple_ref/swift/Section/Creating UIKit Actions" class="dashAnchor"></a>
+                <a href="#/Creating%20UIKit%20Actions">
+                  <h3 class="section-name">Creating UIKit Actions</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV05alertD011willPerform10completionSo07UIAlertD0Cyyc_yxctF"></a>
+                    <a name="//apple_ref/swift/Method/alertAction(willPerform:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV05alertD011willPerform10completionSo07UIAlertD0Cyyc_yxctF">alertAction(willPerform:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a alert action that can be added to a <code>UIAlertController</code> action sheet.</p>
+
+<p>The alert action will have the destructive style if <code><a href="../Structs/BoundUserAction.html#/s:11UserActions05BoundA6ActionV13isDestructiveSbvp">isDestructive</a></code> is true.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">alertAction</span><span class="p">(</span>
+    <span class="nv">willPerform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">}</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIAlertAction</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>willPerform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional closure to perform before the action runs.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional closure to perform when the action completes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An alert action that will perform this action when the user selects that option
+in the alert controller.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV04menuD05image5state6source11willPerform10completionSo8UIActionCSo7UIImageCSg_So18UIMenuElementStateVA2AO6SourceOSgyycyxctF"></a>
+                    <a name="//apple_ref/swift/Method/menuAction(image:state:source:willPerform:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV04menuD05image5state6source11willPerform10completionSo8UIActionCSo7UIImageCSg_So18UIMenuElementStateVA2AO6SourceOSgyycyxctF">menuAction(image:state:source:willPerform:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a menu action that can be added to contextual menu.</p>
+
+<p>The menu action will have the disabled attribute if it can&rsquo;t be performed when this method
+is called. It will have the destructive attribute if <code><a href="../Structs/BoundUserAction.html#/s:11UserActions05BoundA6ActionV13isDestructiveSbvp">isDestructive</a></code> is true. It can also
+include an image or have its state set so it appears checked.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">menuAction</span><span class="p">(</span>
+    <span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">state</span><span class="p">:</span> <span class="kt">UIMenuElement</span><span class="o">.</span><span class="kt">State</span> <span class="o">=</span> <span class="o">.</span><span class="n">off</span><span class="p">,</span>
+    <span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Enums/UserActions.html">UserActions</a></span><span class="o">.</span><span class="kt">Source</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">willPerform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">}</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIAction</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>image</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional image to include on the menu action.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>state</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional state to set on the menu action. Defaults to <q>off</q>, so the menu
+action will not dispaly with a checkmark.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>source</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A UI element which view controllers that this action presents will use as
+their source.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>willPerform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional closure to perform before the action runs.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional closure to perform when the action completes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A menu action that will perform this action when the user selects that option
+from the menu.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:11UserActions05BoundA6ActionV010contextualD011willPerform10completionSo012UIContextualD0Cyyc_yxctF"></a>
+                    <a name="//apple_ref/swift/Method/contextualAction(willPerform:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:11UserActions05BoundA6ActionV010contextualD011willPerform10completionSo012UIContextualD0Cyyc_yxctF">contextualAction(willPerform:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a contextual action that can be added to table row swipe actions.</p>
+
+<p>The contextual action will have the destructive style if <code><a href="../Structs/BoundUserAction.html#/s:11UserActions05BoundA6ActionV13isDestructiveSbvp">isDestructive</a></code> is true. Unlike
+other UI elements created from bound user actions, contextual actions will use the short
+display name of a user action since swipe actions are very space-constrained.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">contextualAction</span><span class="p">(</span>
+    <span class="nv">willPerform</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="o">=</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">}</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIContextualAction</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>willPerform</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional closure to perform before the action runs.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional closure to perform when the action completes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A contextual action that will perform this action when the user taps the
+button in the swipe actions.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2019 <a class="link" href="https://www.mattmoriarity.com/" target="_blank" rel="external">Matt Moriarity</a>. All rights reserved. (Last updated: 2019-11-09)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

@@ -1,0 +1,47 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/matt/Projects/UserActions/Sources/UserActions/UserActionPresenter.swift",
+      "line": 19,
+      "symbol": "UserActionPresenter.present(_:animated:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/matt/Projects/UserActions/Sources/UserActions/UserActionPresenter.swift",
+      "line": 21,
+      "symbol": "UserActionPresenter.present(_:animated:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/matt/Projects/UserActions/Sources/UserActions/UserActionPresenter.swift",
+      "line": 26,
+      "symbol": "UserActionPresenter.dismiss(animated:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/matt/Projects/UserActions/Sources/UserActions/UserActionPresenter.swift",
+      "line": 27,
+      "symbol": "UserActionPresenter.dismiss(animated:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/matt/Projects/UserActions/Sources/UserActions/UserActionPresenter.swift",
+      "line": 32,
+      "symbol": "UserActionPresenter.present(_:animated:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/matt/Projects/UserActions/Sources/UserActions/UserActionPresenter.swift",
+      "line": 37,
+      "symbol": "UserActionPresenter.dismiss(animated:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/matt/Projects/UserActions"
+}
