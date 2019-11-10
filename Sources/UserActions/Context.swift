@@ -31,7 +31,7 @@ extension UserActions {
     /// The context tracks the result of the action and reports it back to the runner. It also provides a way
     /// for action implementations to interact with the rest of your app.
     ///
-    public class Context<Action: UserAction> {
+    public final class Context<Action: UserAction> {
         let runner: Runner
         let action: Action
         let source: Source?
