@@ -63,7 +63,7 @@
                 <a class="nav-group-task-link" href="../Protocols/SyncUserAction.html">SyncUserAction</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Defining%20Actions.html#/s:11UserActions08ReactiveA6ActionP">ReactiveUserAction</a>
+                <a class="nav-group-task-link" href="../Protocols/ReactiveUserAction.html">ReactiveUserAction</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/DestructiveUserAction.html">DestructiveUserAction</a>
@@ -128,72 +128,25 @@
               </div>
             <p>A type that describes a particular action that the user can perform and how to perform it.</p>
 
+<p>There are several subprotocols of <code>UserAction</code> that each provide a different way for types to define how
+they perform a user action:</p>
+
+<ul>
+<li><code><a href="../Protocols/SimpleUserAction.html">SimpleUserAction</a></code>: a simple action that performs a task synchronously.</li>
+<li><code><a href="../Protocols/SyncUserAction.html">SyncUserAction</a></code>: a synchronous action that uses the action context.</li>
+<li><code><a href="../Protocols/ReactiveUserAction.html">ReactiveUserAction</a></code>: a possibly asynchronous action that reports its result with a publisher.</li>
+</ul>
+
+<p>To implement a user action, a type should conform to exactly one of the above protocols and implement the
+appropriate method to define how to do its work.</p>
+
           </div>
         </section>
 
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Performing%20Work"></a>
-                <a name="//apple_ref/swift/Section/Performing Work" class="dashAnchor"></a>
-                <a href="#/Performing%20Work">
-                  <h3 class="section-name">Performing Work</h3>
-                </a>
-              </div>
               <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:11UserActions0A6ActionP9publisher7context7Combine12AnyPublisherVy10ResultTypeQzs5Error_pGA2AO7ContextCy_xG_tF"></a>
-                    <a name="//apple_ref/swift/Method/publisher(context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:11UserActions0A6ActionP9publisher7context7Combine12AnyPublisherVy10ResultTypeQzs5Error_pGA2AO7ContextCy_xG_tF">publisher(context:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Do the action&rsquo;s work, possibly asynchronously, reporting results with a publisher.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">publisher</span><span class="p">(</span><span class="nv">context</span><span class="p">:</span> <span class="kt"><a href="../Enums/UserActions.html">UserActions</a></span><span class="o">.</span><span class="kt">Context</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt"><a href="../Protocols/UserAction.html#/s:11UserActions0A6ActionP10ResultTypeQa">ResultType</a></span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>context</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The action&rsquo;s context, which can be used to retrieve app-specific values, present
-or dismiss view controllers, or perform other actions.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A publisher that will provide the result of the action and will complete when the action
-is finished.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
                 <li class="item">
                   <div>
                     <code>

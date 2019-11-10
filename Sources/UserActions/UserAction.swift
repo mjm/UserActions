@@ -1,18 +1,20 @@
 import Combine
 
 /// A type that describes a particular action that the user can perform and how to perform it.
+///
+/// There are several subprotocols of `UserAction` that each provide a different way for types to define how
+/// they perform a user action:
+///
+/// - `SimpleUserAction`: a simple action that performs a task synchronously.
+/// - `SyncUserAction`: a synchronous action that uses the action context.
+/// - `ReactiveUserAction`: a possibly asynchronous action that reports its result with a publisher.
+///
+/// To implement a user action, a type should conform to exactly one of the above protocols and implement the
+/// appropriate method to define how to do its work.
+///
 public protocol UserAction {
-    // MARK: Performing Work
 
-    /// Do the action's work, possibly asynchronously, reporting results with a publisher.
-    ///
-    /// - Parameters:
-    ///    - context: The action's context, which can be used to retrieve app-specific values, present
-    ///    or dismiss view controllers, or perform other actions.
-    ///
-    /// - Returns: A publisher that will provide the result of the action and will complete when the action
-    /// is finished.
-    ///
+    /// :nodoc:
     func publisher(context: UserActions.Context<Self>) -> AnyPublisher<ResultType, Error>
 
     /// The type of value this action returns when it completes successfully.
