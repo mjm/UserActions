@@ -65,6 +65,14 @@ extension UserActions {
                 willPerform: willPerform
             )
 
+            guard action.canPerform else {
+                Event.current[.actionName] = String(describing: Action.self)
+                Event.current[.canceled] = true
+                context!.subject.send(completion: .failure(UserActionError.canceled))
+                Event.current.send("completed user action")
+                return context!.subject.eraseToAnyPublisher()
+            }
+
             let publisher = context!.subject.eraseToAnyPublisher()
 
             publisher.handle(
