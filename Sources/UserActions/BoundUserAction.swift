@@ -302,10 +302,8 @@ public extension BoundUserAction {
             _, _, contextualActionCompletion in
             self.perform(willPerform: willPerform)
                 .ignoreError()
-                .handle(receiveValue: { value in
-                    completion(value)
-                    contextualActionCompletion(true)
-                })
+                .handle(receiveValue: completion)
+            contextualActionCompletion(true)
         }
     }
 }
