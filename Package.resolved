@@ -12,11 +12,11 @@
       },
       {
         "package": "Entwine",
-        "repositoryURL": "https://github.com/tcldr/Entwine",
+        "repositoryURL": "https://github.com/mjm/Entwine",
         "state": {
-          "branch": null,
-          "revision": "ce8de842f18a6b91795a970637d845b836c0ad92",
-          "version": "0.8.0"
+          "branch": "master",
+          "revision": "32f10d1fc2305af0248a59eb4a4545a43b179ccc",
+          "version": null
         }
       },
       {
