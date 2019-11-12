@@ -1,5 +1,6 @@
 import Combine
 import CoreData
+import Entwine
 
 #if canImport(UIKit)
 import UIKit
@@ -37,7 +38,7 @@ extension UserActions {
         let source: Source?
         let willPerformHandler: () -> Void
 
-        let subject = ReplaySubject<Action.ResultType, Error>()
+        let subject = ReplaySubject<Action.ResultType, Error>.createUnbounded()
 
         init(
             runner: Runner,
