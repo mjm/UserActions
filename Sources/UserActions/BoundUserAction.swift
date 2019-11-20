@@ -32,8 +32,8 @@ public struct BoundUserActionOptions: OptionSet {
 ///
 public struct BoundUserAction<ResultType> {
 
-    fileprivate var title: String
-    fileprivate var shortTitle: String
+    public private(set) var title: String
+    public private(set) var shortTitle: String
     fileprivate var options: Options
     fileprivate var canPerformBlock: CanPerformHandler
     fileprivate var willPerformBlock: WillPerformHandler = {}
